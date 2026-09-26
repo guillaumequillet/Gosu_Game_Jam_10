@@ -23,8 +23,6 @@ class Scooter
     end
 
     def update(dt)
-        dt = dt / 1000.0 # to work in seconds
-
         # SPEED
         if accelerates?
             @speed += @acceleration * dt

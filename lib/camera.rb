@@ -10,6 +10,8 @@ class Camera
     end
 
     def update(dt)
+        # TODO : add some lerp
+        
         @t_x = @scene.scooter.x
         @t_y = @scene.scooter.y + 2
         @t_z = @scene.scooter.z

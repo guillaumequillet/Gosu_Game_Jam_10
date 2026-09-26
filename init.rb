@@ -24,7 +24,7 @@ class Window < Gosu::Window
 
     def update
         @dt ||= Gosu.milliseconds
-        delta = Gosu.milliseconds - @dt
+        delta = (Gosu.milliseconds - @dt) / 1000.0
         @scene.update(delta)
         @dt = Gosu.milliseconds
     end

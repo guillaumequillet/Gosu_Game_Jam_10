@@ -26,7 +26,7 @@ class GameScene < Scene
     end
 
     def create_road
-        @road = Road.new
+        @road = Road.new(self)
     end
 
     def opengl_setup
@@ -37,6 +37,7 @@ class GameScene < Scene
 
     def update(dt)
         @scooter.update(dt)
+        @road.update(dt)
         @camera.update(dt)
     end
 

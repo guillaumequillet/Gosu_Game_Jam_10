@@ -1,3 +1,18 @@
+Musique
+- music/park_dreams_punk.mp3 : "Park Dreams (Skater Punk Rock)" par SoundUniverseStudio
+  Pixabay Content License - https://pixabay.com/music/punk-park-dreams-skater-punk-rock-238535/
+
 Sons
-- sfx/engine_synth.wav : genere pour le projet
-- sfx/brake.wav : genere pour le projet
+- sfx/scooter_vespa.wav : extrait retravaille de "Vespa Driving" par freesound_community
+  Pixabay Content License - https://pixabay.com/sound-effects/city-vespa-driving-68859/
+- sfx/brake_chrysler.wav : extrait de "Chrysler LHS tire squeal 02" par audible-edge (Freesound), via freesound_community
+  Pixabay Content License - https://pixabay.com/sound-effects/city-chrysler-lhs-tire-squeal-02-04-25-2009wav-14764/
+
+Graphismes
+- Modeles 3D (scooter, voitures, route) : realises pour le projet avec Blender
+- Palette de couleurs : "Lospec 500" par la communaute Lospec
+  https://lospec.com/palette-list/lospec500
+
+Technologies
+- Gosu (https://www.libgosu.org)
+- opengl-bindings (https://github.com/vaiorabbit/ruby-opengl)

@@ -23,6 +23,10 @@ class GameScene < Scene
         @scooter = Scooter.new
         @camera = Camera.new(self)
         create_road
+
+        @music = Gosu::Song.new('music/park_dreams_punk.mp3')
+        @music.volume = 0.7
+        @music.play(true)
     end
 
     def create_road

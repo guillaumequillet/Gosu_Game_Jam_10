@@ -21,9 +21,9 @@ class Scooter
         @max_speed = 25.0 # units per second
         @acceleration = 10.0 # units per second
 
-        @engine_sound = Gosu::Sample.new('sfx/engine_synth.wav')
-        @engine_channel = @engine_sound.play(0.5, 0.8, true)
-        @brake_sound = Gosu::Sample.new('sfx/brake.wav')
+        @engine_sound = Gosu::Sample.new('sfx/scooter_vespa.wav')
+        @engine_channel = @engine_sound.play(0.3, 0.8, true)
+        @brake_sound = Gosu::Sample.new('sfx/brake_chrysler.wav')
         @brake_channel = nil
     end
 
@@ -37,7 +37,7 @@ class Scooter
             if decelerates?
                 @speed -= @acceleration * 2.0 * dt
                 if @speed > 5 && !@brake_channel&.playing?
-                    @brake_channel = @brake_sound.play(0.35 * @speed / @max_speed)
+                    @brake_channel = @brake_sound.play(0.8 * @speed / @max_speed)
                 end
             # natural deceleration
             else

@@ -37,13 +37,15 @@ class Road
     def spawn_car
         z = @scene.scooter.z + 100
         angle = [90, 270].sample
-        @cars.push Car.new(angle, z)
+        too_close = @cars.any? {|car| car.angle == angle && (car.z - z).abs < 10}
+        @cars.push Car.new(angle, z) unless too_close
         @last_spawn = Gosu.milliseconds
+        @spawn_delay = Gosu.random(350, 800)
     end
 
     def update(dt)
         @last_spawn ||= Gosu.milliseconds
-        if Gosu.milliseconds - @last_spawn > 2000
+        if Gosu.milliseconds - @last_spawn > (@spawn_delay || 1000)
             spawn_car
         end
 

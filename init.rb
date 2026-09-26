@@ -13,7 +13,7 @@ class Window < Gosu::Window
     def initialize
         super(640, 480, false)
         self.caption = 'Gosu Game Jam 10'
-        @scene = GameScene.new
+        @scene = GameScene.new(self)
     end
 
     def button_down(id)

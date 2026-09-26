@@ -17,10 +17,11 @@ class Scene
 end
 
 class GameScene < Scene
+    attr_reader :window, :scooter
     def initialize(window)
         super(window)
         @scooter = Scooter.new
-        @camera = Camera.new(@window)
+        @camera = Camera.new(self)
         create_road
     end
 
@@ -36,6 +37,7 @@ class GameScene < Scene
 
     def update(dt)
         @scooter.update(dt)
+        @camera.update(dt)
     end
 
     def draw

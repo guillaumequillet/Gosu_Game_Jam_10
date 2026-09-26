@@ -19,7 +19,7 @@ class Road
         # todo : varier les segments, plus tard
         @display_list = glGenLists(1)
         glNewList(@display_list, GL_COMPILE) 
-            length.times {|z| @models[:road].draw(@texture, -SEGMENT_SIZE / 2.0, 0, -z * SEGMENT_SIZE)}
+            length.times {|z| @models[:road].draw(@texture, -SEGMENT_SIZE / 2.0, 0, z * SEGMENT_SIZE)}
         glEndList
     end
 

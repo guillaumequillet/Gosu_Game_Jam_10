@@ -1,6 +1,6 @@
 class Car
     attr_reader :z
-    
+
     def self.models
         @models ||= {
             yellow: Model3D.new('gfx/models/car.obj')
@@ -8,7 +8,7 @@ class Car
     end
 
     def self.texture
-        @texture ||= GLTexture.new('gfx/funkyfuture-8-8x.png')
+        @texture ||= GLTexture.new('gfx/lospec500-8x.png')
     end
 
     def initialize(angle = 90, z = 0)

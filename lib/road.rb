@@ -10,7 +10,7 @@ class Road
     end
 
     def load_assets
-        @texture = GLTexture.new('gfx/funkyfuture-8-8x.png')
+        @texture = GLTexture.new('gfx/lospec500-8x.png')
         @models = {
             road: Model3D.new('gfx/models/road.obj')
         }

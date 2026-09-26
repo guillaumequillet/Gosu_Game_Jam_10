@@ -3,7 +3,7 @@ class Scooter
     def initialize(x = 0, y = 0, z = 0)
         @x, @y, @z = x, y, z
         @model = Model3D.new('gfx/models/scooter.obj')
-        @texture = GLTexture.new('gfx/funkyfuture-8-8x.png')
+        @texture = GLTexture.new('gfx/lospec500-8x.png')
         
         @keys = {
             accelerate: [Gosu::KB_UP, Gosu::KB_W],

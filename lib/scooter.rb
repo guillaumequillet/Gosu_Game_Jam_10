@@ -14,8 +14,8 @@ class Scooter
     
         @default_angle = 90.0
         @angle = @default_angle
-        @max_angle = 30.0
-        @angle_speed = 50.0 # degres per second
+        @max_angle = 45.0
+        @angle_speed = 25.0 # degres per second
 
         @speed = 0.0
         @max_speed = 25.0 # units per second

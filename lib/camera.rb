@@ -6,19 +6,29 @@ class Camera
         @fovy = 45.0
         @near = 0.1
         @far = 1000.0
-        @distance = 6.0
+        @distance = 4.0
+        @smoothness = 8.0
+    end
+
+    def lerp(a, b, t)
+        a + (b - a) * t
     end
 
     def update(dt)
-        # TODO : add some lerp
-        
-        @t_x = @scene.scooter.x
-        @t_y = @scene.scooter.y + 2
-        @t_z = @scene.scooter.z
+        scooter = @scene.scooter
+        t = 1 - Math.exp(-@smoothness * dt)
 
-        @x = @t_x
-        @y = @t_y 
-        @z = @t_z - @distance
+        target_x = scooter.x
+        target_y = scooter.y + 2
+        target_z = scooter.z
+
+        @t_x = lerp(@t_x, target_x, t)
+        @t_y = lerp(@t_y, target_y, t)
+        @t_z = lerp(@t_z, target_z, t)
+
+        @x = lerp(@x, target_x, t)
+        @y = lerp(@y, target_y, t)
+        @z = lerp(@z, target_z - @distance, t)
     end
 
     def look

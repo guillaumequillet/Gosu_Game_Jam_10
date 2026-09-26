@@ -1,7 +1,7 @@
 class Camera
     def initialize(window)
         @window = window
-        @x, @y, @z = 0, 64, 64
+        @x, @y, @z = 0, 16, 16
         @t_x, @t_y, @t_z = 0, 0, 0
         @fovy = 45.0
         @near = 0.1

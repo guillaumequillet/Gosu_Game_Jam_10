@@ -19,6 +19,7 @@ end
 class GameScene < Scene
     def initialize(window)
         super(window)
+        @scooter = Scooter.new
         @camera = Camera.new(@window)
         create_road
     end
@@ -33,11 +34,16 @@ class GameScene < Scene
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
     end
 
+    def update(dt)
+        @scooter.update(dt)
+    end
+
     def draw
         Gosu.gl do
             opengl_setup
             @camera.look
             @road.draw
+            @scooter.draw
         end
     end
 end

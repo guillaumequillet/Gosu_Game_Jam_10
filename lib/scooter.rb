@@ -15,7 +15,7 @@ class Scooter
         @default_angle = 90
         @angle = @default_angle
         @max_angle = 30
-        @angle_speed = 0.01
+        @angle_speed = 0.05
 
         @speed = 0
         @max_speed = 0.025
@@ -23,6 +23,7 @@ class Scooter
     end
 
     def update(dt)
+        # SPEED
         if accelerates?
             @speed += @acceleration * dt
             @speed = @max_speed if @speed > @max_speed
@@ -32,11 +33,12 @@ class Scooter
                 @speed -= @acceleration * 2.0 * dt
             # natural deceleration
             else
-                @speed -= @acceleration * 0.5 * dt if @speed > 0
+                @speed -= @acceleration * 0.8 * dt if @speed > 0
             end
             @speed = 0 if @speed < 0
         end
 
+        # TURNING
         # if scooter is moving
         if @speed > 0
             if turns_left?
@@ -79,6 +81,14 @@ class Scooter
     end
 
     def draw
-        @model.draw(@texture, @x, @y, @z)
+        # side rotation if turning
+        turn = @default_angle - @angle
+
+        glPushMatrix
+            glTranslatef(@x, @y, @z)
+            glRotatef(turn * 0.5, 0, 1, 0)
+            glRotatef(-turn, 0, 0, 1)
+            @model.draw(@texture)
+        glPopMatrix
     end
 end

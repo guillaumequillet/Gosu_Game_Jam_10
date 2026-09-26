@@ -6,7 +6,7 @@ class Camera
         @fovy = 45.0
         @near = 0.1
         @far = 1000.0
-        @distance = 5.0
+        @distance = 6.0
     end
 
     def update(dt)

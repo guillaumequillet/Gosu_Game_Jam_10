@@ -14,12 +14,17 @@ class Scooter
     
         @default_angle = 90.0
         @angle = @default_angle
-        @max_angle = 20.0
-        @angle_speed = 50.0 # degres per second
+        @max_angle = 12.0
+        @angle_speed = 35.0 # degres per second
 
         @speed = 0.0
         @max_speed = 25.0 # units per second
         @acceleration = 10.0 # units per second
+
+        @engine_sound = Gosu::Sample.new('sfx/engine_synth.wav')
+        @engine_channel = @engine_sound.play(0.5, 0.8, true)
+        @brake_sound = Gosu::Sample.new('sfx/brake.wav')
+        @brake_channel = nil
     end
 
     def update(dt)
@@ -31,12 +36,18 @@ class Scooter
             # brake
             if decelerates?
                 @speed -= @acceleration * 2.0 * dt
+                if @speed > 5 && !@brake_channel&.playing?
+                    @brake_channel = @brake_sound.play(0.35 * @speed / @max_speed)
+                end
             # natural deceleration
             else
                 @speed -= @acceleration * 0.8 * dt if @speed > 0
             end
             @speed = 0 if @speed < 0
         end
+
+        @brake_channel&.stop if accelerates? || !decelerates? || @speed <= 0
+        @engine_channel.speed = 0.8 + (@speed / @max_speed) * 0.8
 
         # TURNING
         # if scooter is moving

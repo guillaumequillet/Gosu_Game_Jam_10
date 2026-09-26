@@ -12,7 +12,7 @@ on peut imaginer qu'on tourne, mais dans le cas c'est imposé par un script (cou
 
 livraison pizza
 -> scooter cale sous une certaine vitesse, on doit le redémarrer au kick ou au bouton
--> si > 30 min, pizza gratuite
+-> si > 30 min, pizza gratuite (temps bien sûr accéléré : 1 seconde = 10 secondes ou quelque chose comme ça)
 
 la caméra suivra la route, pas le joueur. Façon road rash ps1 https://youtu.be/XJ8bcjK7-3c
 
@@ -21,4 +21,14 @@ le scooter sera modélisé en 3D mais sera peut être pré rendu en sprites pour
 
 proto en boites 3D simples pour le moment
 pour la route, tiled ou color images, on reste simple. Procédural ? Pour le traffic peut être pas pour le tracé
+
+prochaine étape
+
+on crée des boites et on regarde
+on teste la route sur 2 tiles de large => soit 2 + 2 et 2 pour le trottoir de chaque coté
+donc route de 6.0 de large
+une voiture fera pour le moment 2 x 4, le scooter 1 x 2
+
+
+CREDITS
 

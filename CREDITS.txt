@@ -1,0 +1,3 @@
+Sons
+- sfx/engine_synth.wav : genere pour le projet
+- sfx/brake.wav : genere pour le projet

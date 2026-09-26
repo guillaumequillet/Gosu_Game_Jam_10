@@ -1,4 +1,13 @@
 require 'gosu'
+require 'opengl'
+require 'glu'
+
+OpenGL.load_lib
+GLU.load_lib
+
+include OpenGL, GLU
+
+Dir.glob("lib/*.rb").each {|fn| require_relative fn}
 
 class Window < Gosu::Window
     def initialize

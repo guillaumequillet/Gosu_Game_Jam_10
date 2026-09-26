@@ -3,7 +3,9 @@ class Car
 
     def self.models
         @models ||= {
-            yellow: Model3D.new('gfx/models/car.obj', [-0.4, 0.8, -0.45])
+            green: Model3D.new('gfx/models/car.obj', [-0.4, 0.8, -0.45]),
+            blue: Model3D.new('gfx/models/car2.obj', [-0.4, 0.8, -0.45]),
+            yellow: Model3D.new('gfx/models/car3.obj', [-0.4, 0.8, -0.45])
         }
     end
 
@@ -13,7 +15,7 @@ class Car
 
     def initialize(angle = 90, z = 0)
         @angle, @z = angle, z
-        @x = (@angle == 90) ? -1 : 1
+        @x = (@angle == 90) ? -1.5 : 1.5
         @y = 0
         @speed = 10.0
         @type = Car.models.keys.sample 

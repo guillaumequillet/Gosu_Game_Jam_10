@@ -12,17 +12,19 @@ class Scooter
             turn_right: [Gosu::KB_RIGHT, Gosu::KB_D]
         }
     
-        @default_angle = 90
+        @default_angle = 90.0
         @angle = @default_angle
-        @max_angle = 30
-        @angle_speed = 0.05
+        @max_angle = 30.0
+        @angle_speed = 50.0 # degres per second
 
-        @speed = 0
-        @max_speed = 0.025
-        @acceleration = 0.0000125
+        @speed = 0.0
+        @max_speed = 25.0 # units per second
+        @acceleration = 12.5 # units per second
     end
 
     def update(dt)
+        dt = dt / 1000.0 # to work in seconds
+
         # SPEED
         if accelerates?
             @speed += @acceleration * dt
@@ -47,13 +49,11 @@ class Scooter
                 @angle += @angle_speed * dt
             # if not turning, we want to place the scooter back to default angle
             else
-                quick_reset = 2.0
-                if (@angle - @default_angle).abs < 0.5
-                    @angle = @default_angle
-                elsif @angle > @default_angle
-                    @angle -= @angle_speed * dt * quick_reset
-                elsif @angle < @default_angle
-                    @angle += @angle_speed * dt * quick_reset
+                step = @angle_speed * dt * 2.0
+                if @angle > @default_angle
+                    @angle = [@angle - step, @default_angle].max
+                else
+                    @angle = [@angle + step, @default_angle].min
                 end
             end
 

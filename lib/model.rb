@@ -1,7 +1,11 @@
 class Model3D
+    LIGHT_DIR = [0, 1 ,0]
+    AMBIENT = 0.4
+
     def initialize(filename)
         @vertices = []
         @texture_vertices = []
+        @normals = []
         @faces = []
         File.open(filename, 'r').readlines.each do |line|
             data = line.split(' ')
@@ -10,6 +14,8 @@ class Model3D
                 @vertices.push data.drop(1).map {|e| e.to_f}
             when 'vt'
                 @texture_vertices.push data.drop(1).map {|e| e.to_f}
+            when 'vn'
+                @normals.push data.drop(1).map {|e| e.to_f}
             when 'f'
                 @faces.push data.drop(1).map {|i| i.split('/').map {|j| j.to_i - 1}} # obj counts from 1, not 0
             end
@@ -25,11 +31,16 @@ class Model3D
                     face.each do |vertex_info|
                         v = @vertices[vertex_info[0]]
                         vt = @texture_vertices[vertex_info[1]]
+                        vn = @normals[vertex_info[2]]
+                        light = [0, vn.zip(LIGHT_DIR).sum {|a, b| a * b}].max
+                        intensity = AMBIENT + (1 - AMBIENT) * light
+                        glColor3f(intensity, intensity, intensity)
                         glTexCoord2d(vt[0], 1.0 - vt[1]) # we invert texture in height
-                        glVertex3f(*v)                        
+                        glVertex3f(*v)
                     end
                 end
             glEnd
+            glColor3f(1, 1, 1)
         glEndList
     end
 

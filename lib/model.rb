@@ -1,8 +1,10 @@
 class Model3D
-    LIGHT_DIR = [-0.4, 0.8, -0.45]
+    LIGHT_DIR = [0, 0.6, -0.8]
     AMBIENT = 0.5
 
-    def initialize(filename)
+    def initialize(filename, light_dir = LIGHT_DIR, ambient = AMBIENT)
+        @light_dir = light_dir
+        @ambient = ambient
         @vertices = []
         @texture_vertices = []
         @normals = []
@@ -32,8 +34,8 @@ class Model3D
                         v = @vertices[vertex_info[0]]
                         vt = @texture_vertices[vertex_info[1]]
                         vn = @normals[vertex_info[2]]
-                        light = [0, vn.zip(LIGHT_DIR).sum {|a, b| a * b}].max
-                        intensity = AMBIENT + (1 - AMBIENT) * light
+                        light = [0, vn.zip(@light_dir).sum {|a, b| a * b}].max
+                        intensity = @ambient + (1 - @ambient) * light
                         glColor3f(intensity, intensity, intensity)
                         glTexCoord2d(vt[0], 1.0 - vt[1]) # we invert texture in height
                         glVertex3f(*v)

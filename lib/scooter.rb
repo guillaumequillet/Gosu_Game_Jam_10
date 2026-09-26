@@ -2,7 +2,7 @@ class Scooter
     attr_reader :x, :y, :z
     def initialize(x = 0, y = 0, z = 0)
         @x, @y, @z = x, y, z
-        @model = Model3D.new('gfx/models/scooter.obj')
+        @model = Model3D.new('gfx/models/scooter.obj', [-0.7, 0.6, -0.4], 0.3)
         @texture = GLTexture.new('gfx/lospec500-8x.png')
         
         @keys = {

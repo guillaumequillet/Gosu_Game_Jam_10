@@ -3,7 +3,7 @@ class Car
 
     def self.models
         @models ||= {
-            yellow: Model3D.new('gfx/models/car.obj')
+            yellow: Model3D.new('gfx/models/car.obj', [-0.4, 0.8, -0.45])
         }
     end
 

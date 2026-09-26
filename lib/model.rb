@@ -14,27 +14,32 @@ class Model3D
                 @faces.push data.drop(1).map {|i| i.split('/').map {|j| j.to_i - 1}} # obj counts from 1, not 0
             end
         end
+        compile_display_list
     end
 
-    def draw(textures)
-        unless defined?(@display_list)
-            @display_list = glGenLists(1)
-            glNewList(@display_list, GL_COMPILE)        
-                glBindTexture(GL_TEXTURE_2D, textures.get_id)
-                glBegin(GL_TRIANGLES)
-                    @faces.each do |face|
-                        face.each do |vertex_info|
-                            v = @vertices[vertex_info[0]]
-                            vt = @texture_vertices[vertex_info[1]]
-                            glTexCoord2d(vt[0], 1.0 - vt[1]) # we invert texture in height
-                            glVertex3f(*v)                        
-                        end
+    def compile_display_list
+        @display_list = glGenLists(1)
+        glNewList(@display_list, GL_COMPILE)
+            glBegin(GL_TRIANGLES)
+                @faces.each do |face|
+                    face.each do |vertex_info|
+                        v = @vertices[vertex_info[0]]
+                        vt = @texture_vertices[vertex_info[1]]
+                        glTexCoord2d(vt[0], 1.0 - vt[1]) # we invert texture in height
+                        glVertex3f(*v)                        
                     end
-                glEnd
-            glEndList
-        else
+                end
+            glEnd
+        glEndList
+    end
+
+    def draw(texture, x = 0, y = 0, z = 0)
+        glBindTexture(GL_TEXTURE_2D, texture.get_id)
+
+        glPushMatrix
+        glTranslatef(x, y, z)
             glCallList(@display_list)
-        end
+        glPopMatrix
     end
 end
 

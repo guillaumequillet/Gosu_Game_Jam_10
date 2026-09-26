@@ -20,14 +20,11 @@ class GameScene < Scene
     def initialize(window)
         super(window)
         @camera = Camera.new(@window)
-        load_assets
+        create_road
     end
 
-    def load_assets
-        @texture = GLTexture.new('gfx/funkyfuture-8-8x.png')
-        @models = {
-            car: Model3D.new('gfx/models/car.obj')
-        }
+    def create_road
+        @road = Road.new
     end
 
     def opengl_setup
@@ -40,9 +37,7 @@ class GameScene < Scene
         Gosu.gl do
             opengl_setup
             @camera.look
-            @angle ||= 0; @angle += 1
-            glRotatef(@angle, 0, 1, 0)
-            @models[:car].draw(@texture)
+            @road.draw
         end
     end
 end

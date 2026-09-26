@@ -12,7 +12,8 @@ class Road
     def load_assets
         @texture = GLTexture.new('gfx/lospec500-8x.png')
         @models = {
-            road: Model3D.new('gfx/models/road.obj')
+            road: Model3D.new('gfx/models/road.obj'),
+            road2: Model3D.new('gfx/models/road2.obj')
         }
     end
  
@@ -20,7 +21,16 @@ class Road
         # todo : varier les segments, plus tard
         @display_list = glGenLists(1)
         glNewList(@display_list, GL_COMPILE) 
-            length.times {|z| @models[:road].draw(@texture, -SEGMENT_SIZE / 2.0, 0, z * SEGMENT_SIZE)}
+            length.times do |z|
+                model = @models.keys.sample 
+                reverse = [true, false].sample
+                if reverse
+                    glPushMatrix
+                    glScalef(-1, 1, 1)
+                end
+                @models[model].draw(@texture, 0, 0, z * SEGMENT_SIZE)
+                glPopMatrix if reverse
+            end
         glEndList
     end
 

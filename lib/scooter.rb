@@ -14,12 +14,12 @@ class Scooter
     
         @default_angle = 90.0
         @angle = @default_angle
-        @max_angle = 45.0
-        @angle_speed = 25.0 # degres per second
+        @max_angle = 20.0
+        @angle_speed = 60.0 # degres per second
 
         @speed = 0.0
-        @max_speed = 25.0 # units per second
-        @acceleration = 12.5 # units per second
+        @max_speed = 20.0 # units per second
+        @acceleration = 10.0 # units per second
     end
 
     def update(dt)
@@ -84,8 +84,8 @@ class Scooter
 
         glPushMatrix
             glTranslatef(@x, @y, @z)
-            glRotatef(turn * 0.5, 0, 1, 0)
-            glRotatef(-turn, 0, 0, 1)
+            glRotatef(turn, 0, 1, 0)
+            glRotatef(-turn * 0.5, 0, 0, 1)
             @model.draw(@texture)
         glPopMatrix
     end

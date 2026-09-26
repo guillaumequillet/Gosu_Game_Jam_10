@@ -1,6 +1,6 @@
 class Model3D
-    LIGHT_DIR = [0, 1 ,0]
-    AMBIENT = 0.4
+    LIGHT_DIR = [-0.4, 0.8, -0.45]
+    AMBIENT = 0.5
 
     def initialize(filename)
         @vertices = []

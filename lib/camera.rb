@@ -8,6 +8,8 @@ class Camera
         @far = 1000.0
         @distance = 3.5
         @height = 0.8
+        @look_height = 0.8
+        @look_ahead = 4.0
         @smoothness = 8.0
     end
 
@@ -20,8 +22,8 @@ class Camera
         t = 1 - Math.exp(-@smoothness * dt)
 
         target_x = scooter.x
-        target_y = scooter.y + 0.8
-        target_z = scooter.z + 4
+        target_y = scooter.y + @look_height
+        target_z = scooter.z + @look_ahead
 
         @t_x = lerp(@t_x, target_x, t)
         @t_y = lerp(@t_y, target_y, t)

@@ -2,8 +2,10 @@ class Scooter
     attr_reader :x, :y, :z
     def initialize(x = 0, y = 0, z = 0)
         @x, @y, @z = x, y, z
-        @model = Model3D.new('gfx/models/scooter.obj', [-0.7, 0.6, -0.4], 0.3)
-        @texture = GLTexture.new('gfx/lospec500-8x.png')
+        @scooter_model = Model3D.new('gfx/models/scooter.obj', [-0.7, 0.6, -0.4], 0.5)
+        @driver_model = Model3D.new('gfx/models/driver.obj', [-0.3, 0.5, 0.8], 0.55)
+        @scooter_texture = GLTexture.new('gfx/lospec500-8x.png')
+        @driver_texture = GLTexture.new('gfx/texture.png')
         
         @keys = {
             accelerate: [Gosu::KB_UP, Gosu::KB_W],
@@ -93,11 +95,15 @@ class Scooter
         # side rotation if turning
         turn = @default_angle - @angle
 
+        glEnable(GL_ALPHA_TEST)
+        glAlphaFunc(GL_GREATER, 0)
         glPushMatrix
             glTranslatef(@x, @y, @z)
             glRotatef(turn, 0, 1, 0)
             glRotatef(-turn * 0.5, 0, 0, 1)
-            @model.draw(@texture)
+            @scooter_model.draw(@scooter_texture)
+            @driver_model.draw(@driver_texture)
         glPopMatrix
+        glDisable(GL_ALPHA_TEST)
     end
 end

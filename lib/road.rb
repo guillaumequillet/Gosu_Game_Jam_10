@@ -70,10 +70,10 @@ class Road
     end
 
     def draw
-        # dessin de la route
+        # Road Drawing
         glCallList(@display_list)
 
-        # dessin des voitures
+        # Cars Drawing
         @cars.each do |car|
             car.draw
         end

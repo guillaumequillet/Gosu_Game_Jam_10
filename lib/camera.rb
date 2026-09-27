@@ -31,12 +31,10 @@ class Camera
 
         @t_x = lerp(@t_x, target_x, t_look)
         @t_y = lerp(@t_y, target_y, t)
-        # @t_z = lerp(@t_z, target_z, t)
         @t_z = target_z
 
         @x = lerp(@x, target_x, t_follow)
         @y = lerp(@y, target_y + @height, t)
-        # @z = lerp(@z, target_z - @distance, t)
         @z = scooter.z - @distance
     end
 

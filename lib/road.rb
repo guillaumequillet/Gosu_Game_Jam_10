@@ -1,4 +1,5 @@
 class Road
+    attr_reader :cars
     SEGMENT_SIZE = 10
 
     def initialize(scene, length = 100)

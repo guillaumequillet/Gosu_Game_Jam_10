@@ -33,6 +33,10 @@ class GameScene < Scene
         @road = Road.new(self)
     end
 
+    def button_down(id)
+        @debug = !@debug if id == Gosu::KB_F1
+    end
+
     def opengl_setup
         glEnable(GL_DEPTH_TEST)
         glEnable(GL_TEXTURE_2D)
@@ -52,6 +56,11 @@ class GameScene < Scene
             @camera.look
             @road.draw
             @scooter.draw
+
+            if @debug
+                Debug.draw_circles(@scooter.collision_circles, [0, 1, 0])
+                @road.cars.each {|car| Debug.draw_circles(car.collision_circles)}
+            end
         end
     end
 end

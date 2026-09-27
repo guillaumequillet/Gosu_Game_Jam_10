@@ -26,7 +26,7 @@ class GameScene < Scene
 
         @music = Gosu::Song.new('music/pop_punk_magpie.mp3')
         @music.volume = 0.7
-        # @music.play(true)
+        @music.play(true)
     end
 
     def create_road

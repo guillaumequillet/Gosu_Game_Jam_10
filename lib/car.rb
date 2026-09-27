@@ -37,6 +37,24 @@ class Car
         @z += @vz * dt
     end
 
+    def draw_shadow
+        glDisable(GL_TEXTURE_2D)
+        glEnable(GL_BLEND)
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
+        glDepthMask(GL_FALSE)
+        glColor4f(0, 0, 0, 0.35)
+        glBegin(GL_QUADS)
+            glVertex3f(-0.9, 0.01, -2.0)
+            glVertex3f( 0.9, 0.01, -2.0)
+            glVertex3f( 0.9, 0.01,  2.0)
+            glVertex3f(-0.9, 0.01,  2.0)
+        glEnd
+        glColor4f(1, 1, 1, 1)
+        glDepthMask(GL_TRUE)
+        glDisable(GL_BLEND)
+        glEnable(GL_TEXTURE_2D)
+    end
+
     def draw
         glPushMatrix
             glTranslatef(@x, @y, @z)
@@ -44,6 +62,7 @@ class Car
             wobble = Math.atan2(@vx || 0, (@vz || 1).abs) * 180 / Math::PI
             wobble = -wobble if base == 180
             glRotatef(base + wobble * 1.5, 0, 1, 0)
+            draw_shadow
             Car.models[@type].draw(Car.texture)
         glPopMatrix
     end

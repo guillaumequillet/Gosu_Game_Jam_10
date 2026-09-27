@@ -91,6 +91,24 @@ class Scooter
         @keys[:turn_right].any? {|k| Gosu.button_down?(k)}
     end
 
+    def draw_shadow
+        glDisable(GL_TEXTURE_2D)
+        glEnable(GL_BLEND)
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
+        glDepthMask(GL_FALSE)
+        glColor4f(0, 0, 0, 0.35)
+        glBegin(GL_QUADS)
+            glVertex3f(-0.25, 0.01, -0.95)
+            glVertex3f( 0.25, 0.01, -0.95)
+            glVertex3f( 0.25, 0.01,  0.95)
+            glVertex3f(-0.25, 0.01,  0.95)
+        glEnd
+        glColor4f(1, 1, 1, 1)
+        glDepthMask(GL_TRUE)
+        glDisable(GL_BLEND)
+        glEnable(GL_TEXTURE_2D)
+    end
+
     def draw
         # side rotation if turning
         turn = @default_angle - @angle
@@ -100,6 +118,7 @@ class Scooter
         glPushMatrix
             glTranslatef(@x, @y, @z)
             glRotatef(turn, 0, 1, 0)
+            draw_shadow
             glRotatef(-turn * 0.5, 0, 0, 1)
             @scooter_model.draw(@scooter_texture)
             @driver_model.draw(@driver_texture)

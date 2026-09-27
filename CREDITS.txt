@@ -7,6 +7,8 @@ Sons
   Pixabay Content License - https://pixabay.com/sound-effects/city-vespa-driving-68859/
 - sfx/brake_chrysler.wav : extrait de "Chrysler LHS tire squeal 02" par audible-edge (Freesound), via freesound_community
   Pixabay Content License - https://pixabay.com/sound-effects/city-chrysler-lhs-tire-squeal-02-04-25-2009wav-14764/
+- sfx/crash_car.wav : extrait de "Car Crash Sound" par DRAGON-STUDIO
+  Pixabay Content License - https://pixabay.com/sound-effects/film-special-effects-car-crash-sound-376882/
 
 Graphismes
 - Modeles 3D (scooter, voitures, route) : realises pour le projet avec Blender

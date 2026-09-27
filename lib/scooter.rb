@@ -32,9 +32,25 @@ class Scooter
         @engine_channel = @engine_sound.play(0.3, 0.8, true)
         @brake_sound = Gosu::Sample.new('sfx/brake_chrysler.wav')
         @brake_channel = nil
+        @crash_sound = Gosu::Sample.new('sfx/crash_car.wav')
+
+        @spin_duration = 0.5
+        @spin_time = nil
+        @invincible_time = 0
     end
 
     def update(dt)
+        if @spin_time
+            @spin_time += dt
+            @z -= 1.5 * dt # we want the scooter to move back a little
+            if @spin_time >= @spin_duration
+                @spin_time = nil
+                @invincible_time = 1.0
+            end
+            return
+        end
+        @invincible_time -= dt if @invincible_time > 0
+
         # SPEED
         if accelerates?
             @speed += @acceleration * dt
@@ -85,6 +101,19 @@ class Scooter
         end
     end
 
+    def crash!
+        @crash_sound.play(0.5 + 0.5 * @speed / @max_speed, Gosu.random(0.85, 1.15))
+        @speed = 0
+        @angle = @default_angle
+        @spin_time = 0
+        @brake_channel&.stop
+        @engine_channel.speed = 0.8
+    end
+
+    def can_be_hit?
+        @spin_time.nil? && @invincible_time <= 0
+    end
+
     def accelerates? 
         @keys[:accelerate].any? {|k| Gosu.button_down?(k)}
     end
@@ -127,12 +156,19 @@ class Scooter
     def draw
         # side rotation if turning
         turn = @default_angle - @angle
+        return if @invincible_time > 0 && (Gosu.milliseconds / 80).odd?
+
+        spin = 0
+        if @spin_time
+            t = @spin_time / @spin_duration
+            spin = 360 * t * (2 - t)
+        end
 
         glEnable(GL_ALPHA_TEST)
         glAlphaFunc(GL_GREATER, 0)
         glPushMatrix
             glTranslatef(@x, @y, @z)
-            glRotatef(turn, 0, 1, 0)
+            glRotatef(turn + spin, 0, 1, 0)
             draw_shadow
             glRotatef(-turn * 0.5, 0, 0, 1)
             @scooter_model.draw(@scooter_texture)

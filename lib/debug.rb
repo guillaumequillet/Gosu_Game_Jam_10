@@ -1,5 +1,4 @@
 module Debug
-    # draws collision circles [[x, z, radius], ...] flat on the ground, visible through models
     def self.draw_circles(circles, color = [1, 0, 0])
         glDisable(GL_TEXTURE_2D)
         glDisable(GL_DEPTH_TEST)

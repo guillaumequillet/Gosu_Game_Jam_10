@@ -51,13 +51,14 @@ class Road
         end
 
         @cars.each {|car| car.update(dt)}
-        @cars.reject! {|car| car.z < @scene.scooter.z - 10}
+        @cars.reject! {|car| car.z < @scene.scooter.z - 10 || car.vanished?}
 
         scooter = @scene.scooter
         @cars.each do |car|
-            next if (car.z - scooter.z).abs > 5 # too far, no need to test
-            if circles_hit?(car.collision_circles, scooter.collision_circles)
-                puts "CRASH"
+            next if car.vanishing? || (car.z - scooter.z).abs > 5 # vanishing or too far, no need to test
+            if scooter.can_be_hit? && circles_hit?(car.collision_circles, scooter.collision_circles)
+                car.vanish!
+                scooter.crash!
             end
         end
     end

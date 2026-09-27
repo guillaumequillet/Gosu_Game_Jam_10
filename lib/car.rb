@@ -29,6 +29,7 @@ class Car
         @wobble_freq = Gosu.random(0.25, 0.4) # per second
         @wobble_phase = Gosu.random(0, 2 * Math::PI) # we don't want it to be sync between all cars
         @time = 0
+        @vanish_time = nil
     end
 
     def update(dt)
@@ -38,6 +39,19 @@ class Car
         @vx = @wobble_amp * 2 * Math::PI * @wobble_freq * Math.cos(wave)
         @vz = @speed * Math.sin(@angle * Math::PI / 180.0)
         @z += @vz * dt
+        @vanish_time += dt if vanishing?
+    end
+
+    def vanish!
+        @vanish_time = 0
+    end
+
+    def vanishing?
+        !@vanish_time.nil?
+    end
+
+    def vanished?
+        vanishing? && @vanish_time > 0.6
     end
 
     def draw_shadow
@@ -71,6 +85,8 @@ class Car
     end
 
     def draw
+        return if vanishing? && (Gosu.milliseconds / 60).odd? # we draw only even seconds to blink
+
         glPushMatrix
             glTranslatef(@x, @y, @z)
             glRotatef(rotation_angle, 0, 1, 0)

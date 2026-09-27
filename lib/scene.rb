@@ -24,7 +24,7 @@ class GameScene < Scene
         @camera = Camera.new(self)
         create_road
 
-        @music = Gosu::Song.new('music/park_dreams_punk.mp3')
+        @music = Gosu::Song.new('music/pop_punk_magpie.mp3')
         @music.volume = 0.7
         @music.play(true)
     end

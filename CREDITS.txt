@@ -1,6 +1,6 @@
 Musique
-- music/park_dreams_punk.mp3 : "Park Dreams (Skater Punk Rock)" par SoundUniverseStudio
-  Pixabay Content License - https://pixabay.com/music/punk-park-dreams-skater-punk-rock-238535/
+- music/pop_punk_magpie.mp3 : "Pop Punk Rock" par MagpieMusic
+  Pixabay Content License - https://pixabay.com/music/punk-pop-punk-rock-179615/
 
 Sons
 - sfx/scooter_vespa.wav : extrait retravaille de "Vespa Driving" par freesound_community

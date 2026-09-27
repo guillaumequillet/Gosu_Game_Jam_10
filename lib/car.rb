@@ -1,6 +1,9 @@
 class Car
     attr_reader :z, :angle
 
+    CIRCLE_RADIUS = 0.8
+    CIRCLE_OFFSETS = [-1.0, 0.0, 1.0] # 3 circles along the car length
+
     def self.models
         @models ||= {
             green: Model3D.new('gfx/models/car.obj', [-0.4, 0.8, -0.45]),
@@ -55,13 +58,22 @@ class Car
         glEnable(GL_TEXTURE_2D)
     end
 
+    def rotation_angle
+        base = (@vz || 1) >= 0 ? 0 : 180
+        wobble = Math.atan2(@vx || 0, (@vz || 1).abs) * 180 / Math::PI
+        wobble = -wobble if base == 180
+        base + wobble * 1.5
+    end
+
+    def collision_circles
+        a = rotation_angle * Math::PI / 180
+        CIRCLE_OFFSETS.map {|d| [@x + d * Math.sin(a), @z + d * Math.cos(a), CIRCLE_RADIUS]}
+    end
+
     def draw
         glPushMatrix
             glTranslatef(@x, @y, @z)
-            base = (@vz || 1) >= 0 ? 0 : 180
-            wobble = Math.atan2(@vx || 0, (@vz || 1).abs) * 180 / Math::PI
-            wobble = -wobble if base == 180
-            glRotatef(base + wobble * 1.5, 0, 1, 0)
+            glRotatef(rotation_angle, 0, 1, 0)
             draw_shadow
             Car.models[@type].draw(Car.texture)
         glPopMatrix

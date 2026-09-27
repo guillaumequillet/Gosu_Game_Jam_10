@@ -1,5 +1,10 @@
 class Scooter
     attr_reader :x, :y, :z
+
+    CIRCLE_RADIUS = 0.35
+    CIRCLE_OFFSETS = [-0.45, 0.45]
+    ROAD_EDGE = 3.6 # road goes from -4 to 4, minus half the scooter width
+
     def initialize(x = 0, y = 0, z = 0)
         @x, @y, @z = x, y, z
         @scooter_model = Model3D.new('gfx/models/scooter.obj', [-0.7, 0.6, -0.4], 0.5)
@@ -72,6 +77,11 @@ class Scooter
 
             @x += @speed * dt * Math.cos(@angle * Math::PI / 180.0)
             @z += @speed * dt * Math.sin(@angle * Math::PI / 180.0)
+
+            # stay on the road, sliding along the sidewalks
+            @x = @x.clamp(-ROAD_EDGE, ROAD_EDGE)
+            @angle = [@angle, @default_angle].max if @x >= ROAD_EDGE
+            @angle = [@angle, @default_angle].min if @x <= -ROAD_EDGE
         end
     end
 
@@ -89,6 +99,11 @@ class Scooter
     
     def turns_right? 
         @keys[:turn_right].any? {|k| Gosu.button_down?(k)}
+    end
+
+    def collision_circles
+        a = (@default_angle - @angle) * Math::PI / 180 # same "turn" as in draw
+        CIRCLE_OFFSETS.map {|d| [@x + d * Math.sin(a), @z + d * Math.cos(a), CIRCLE_RADIUS]}
     end
 
     def draw_shadow

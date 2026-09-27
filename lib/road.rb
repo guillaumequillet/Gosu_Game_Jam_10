@@ -51,6 +51,20 @@ class Road
 
         @cars.each {|car| car.update(dt)}
         @cars.reject! {|car| car.z < @scene.scooter.z - 10}
+
+        scooter = @scene.scooter
+        @cars.each do |car|
+            next if (car.z - scooter.z).abs > 5 # too far, no need to test
+            if circles_hit?(car.collision_circles, scooter.collision_circles)
+                puts "CRASH"
+            end
+        end
+    end
+
+    def circles_hit?(circles_a, circles_b)
+        circles_a.any? do |ax, az, ar|
+            circles_b.any? {|bx, bz, br| Math.hypot(ax - bx, az - bz) < ar + br}
+        end
     end
 
     def draw

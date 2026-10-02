@@ -62,5 +62,10 @@ class GameScene < Scene
                 @road.cars.each {|car| Debug.draw_circles(car.collision_circles)}
             end
         end
+        draw_2d
+    end
+
+    def draw_2d
+        @road.draw_2d
     end
 end

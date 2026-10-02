@@ -2,7 +2,7 @@ class Road
     attr_reader :cars
     SEGMENT_SIZE = 10
 
-    def initialize(scene, length = 100)
+    def initialize(scene, length = 500)
         @scene = scene
         @length = length
         load_assets
@@ -77,5 +77,16 @@ class Road
         @cars.each do |car|
             car.draw
         end
+    end
+
+    def draw_2d
+        # jauge background
+        x, y, z = 10, 10, 1000
+        width, height, color = @scene.window.width - 2 * x, 32, Gosu::Color::BLUE
+        Gosu.draw_rect(x, y, width, height, color, z)
+        
+        # scooter position
+        scooter_jauge_x = (@scene.scooter.z / (@length * SEGMENT_SIZE).to_f) * width
+        Gosu.draw_rect(x + scooter_jauge_x, y + 10, 10, 10, Gosu::Color::WHITE, z)
     end
 end

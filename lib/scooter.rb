@@ -5,7 +5,8 @@ class Scooter
     CIRCLE_OFFSETS = [-0.45, 0.45]
     ROAD_EDGE = 3.6 # road goes from -4 to 4, minus half the scooter width
 
-    def initialize(x = 0, y = 0, z = 0)
+    def initialize(scene, x = 0, y = 0, z = 0)
+        @scene = scene
         @x, @y, @z = x, y, z
         @scooter_model = Model3D.new('gfx/models/scooter.obj', [-0.7, 0.6, -0.4], 0.5)
         @driver_model = Model3D.new('gfx/models/driver.obj', [-0.3, 0.5, 0.8], 0.55)
@@ -37,6 +38,11 @@ class Scooter
         @spin_duration = 0.5
         @spin_time = nil
         @invincible_time = 0
+
+        @hud = {
+            bg: Gosu::Image.new('gfx/fond_compteur.png', retro: true),
+            needle: Gosu::Image.new('gfx/compteur_aiguille.png', retro: true)
+        }
     end
 
     def update(dt)
@@ -175,5 +181,18 @@ class Scooter
             @driver_model.draw(@driver_texture)
         glPopMatrix
         glDisable(GL_ALPHA_TEST)
+    end
+
+    def draw_2d
+        x = 10
+        y = @scene.window.height - @hud[:bg].height - x
+        z = 1000
+        @hud[:bg].draw(x, y, z)
+        x += 64
+        y += 64
+        min_angle, max_angle = -224, 48
+        ratio = (@speed / @max_speed).clamp(0, 1)
+        angle = min_angle + (max_angle - min_angle) * ratio
+        @hud[:needle].draw_rot(x, y, z, angle, 0, 0.5, 0.8, 1.0)
     end
 end

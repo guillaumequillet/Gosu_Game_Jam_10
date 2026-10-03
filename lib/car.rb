@@ -25,7 +25,7 @@ class Car
         @type = Car.models.keys.sample 
 
         # we want the driver not to be so precise
-        @wobble_amp = [0, Gosu.random(0.8, 1.2)].sample # 1 chance out of 2 to stand still
+        @wobble_amp = [0, Gosu.random(0.8, 1.2), Gosu.random(0.8, 1.2)].sample # 2 chances out of 3 to wobble
         @wobble_freq = Gosu.random(0.25, 0.4) # per second
         @wobble_phase = Gosu.random(0, 2 * Math::PI) # we don't want it to be sync between all cars
         @time = 0

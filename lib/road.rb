@@ -1,5 +1,5 @@
 class Road
-    attr_reader :cars
+    attr_reader :cars, :bonus_taken, :bonus_spawned
     SEGMENT_SIZE = 10
 
     def initialize(scene, length = 500)
@@ -9,6 +9,8 @@ class Road
         create_segments(@length)
         @cars = []
         @bonuses = []
+        @bonus_taken = 0
+        @bonus_spawned = 0
     end
 
     def load_assets
@@ -63,14 +65,17 @@ class Road
         @last_spawn = Gosu.milliseconds
 
         # more spawns at the end
-        @spawn_delay = Gosu.random(350, 800) * (1.0 - 0.5 * progress)
+        @spawn_delay = Gosu.random(300, 700) * (1.0 - 0.6 * progress)
     end
 
     def spawn_bonus
         z = @scene.scooter.z + 100
-        @bonuses.push Bonus.new(Gosu.random(-3.5, 3.5), z) unless z > last_segment_z
+        unless z > last_segment_z
+            @bonuses.push Bonus.new(Gosu.random(-3.5, 3.5), z)
+            @bonus_spawned += 1
+        end
         @last_bonus = Gosu.milliseconds
-        @bonus_delay = Gosu.random(2000, 5000)
+        @bonus_delay = Gosu.random(2500, 5500)
     end
 
     def update(dt)
@@ -101,8 +106,9 @@ class Road
         @bonuses.reject! do |bonus|
             taken = circles_hit?(bonus.collision_circles, @scene.scooter.collision_circles)
             if taken
-                @scene.scooter.add_momentum(0.15)
+                @scene.scooter.add_momentum(0.12)
                 Bonus.sound.play(0.8)
+                @bonus_taken += 1
             end
             taken
         end

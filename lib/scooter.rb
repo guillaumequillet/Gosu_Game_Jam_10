@@ -29,7 +29,7 @@ class Scooter
         @speed = @max_speed
         @acceleration = 10.0 # units per second
         @momentum = 1.0 # to handle actual move measure : theme of the Jam
-        @momentum_threshold = 0.8
+        @momentum_threshold = 0.85
 
         @engine_sound = Gosu::Sample.new('sfx/scooter_vespa.wav')
         @engine_channel = @engine_sound.play(0.3, 0.8, true)
@@ -43,7 +43,8 @@ class Scooter
 
         @hud = {
             bg: Gosu::Image.new('gfx/fond_compteur.png', retro: true),
-            needle: Gosu::Image.new('gfx/compteur_aiguille.png', retro: true)
+            needle: Gosu::Image.new('gfx/compteur_aiguille.png', retro: true),
+            minimum: Gosu::Image.new('gfx/minimum.png', retro: true)
         }
         @font = Gosu::Font.new(16, bold: true)
     end
@@ -209,6 +210,7 @@ class Scooter
         ratio = (@speed / @max_speed).clamp(0, 1)
         angle = min_angle + (max_angle - min_angle) * ratio
         @hud[:needle].draw_rot(x, y, z, angle, 0, 0.5, 0.8, 1.0)
+        @hud[:minimum].draw(x + 55, y, z)
     end
 
     def draw_momentum

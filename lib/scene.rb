@@ -64,7 +64,7 @@ class GameScene < Scene
     def success
         @scooter.stop_sounds
         @music.stop
-        @window.scene = SuccessScene.new(@window, @elapsed)
+        @window.scene = SuccessScene.new(@window, @elapsed, @road.bonus_taken, @road.bonus_spawned)
     end
 
     def draw
@@ -107,11 +107,12 @@ class GameOverScene < Scene
 end
 
 class SuccessScene < Scene
-    def initialize(window, elapsed)
+    def initialize(window, elapsed, bonus_taken, bonus_spawned)
         super(window)
         @big_font = Gosu::Font.new(48)
         @small_font = Gosu::Font.new(20)
         @time = format('%d:%02d', elapsed / 60, elapsed % 60)
+        @bonus = "#{bonus_taken} / #{bonus_spawned}"
     end
 
     def button_down(id)
@@ -122,6 +123,7 @@ class SuccessScene < Scene
         x, y = @window.width / 2, @window.height / 2
         @big_font.draw_text_rel('You made it !', x, y - 40, 0, 0.5, 0.5)
         @small_font.draw_text_rel("Time : #{@time}", x, y + 10, 0, 0.5, 0.5)
-        @small_font.draw_text_rel('Press any key to retry.', x, y + 50, 0, 0.5, 0.5, 1, 1, Gosu::Color::GRAY)
+        @small_font.draw_text_rel("Bonus : #{@bonus}", x, y + 35, 0, 0.5, 0.5)
+        @small_font.draw_text_rel('Press any key to retry.', x, y + 75, 0, 0.5, 0.5, 1, 1, Gosu::Color::GRAY)
     end
 end

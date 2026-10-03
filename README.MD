@@ -1,4 +1,6 @@
-## GOSU GAME JAM 10
+## PIZZA RUSH
+
+Made for the Gosu Game Jam 10
 
 Theme : don't stop moving
 

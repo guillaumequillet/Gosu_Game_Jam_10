@@ -10,6 +10,8 @@ include OpenGL, GLU
 Dir.glob("lib/*.rb").each {|fn| require_relative fn}
 
 class Window < Gosu::Window
+    attr_accessor :scene
+
     def initialize
         super(640, 480, false)
         self.caption = 'Gosu Game Jam 10'

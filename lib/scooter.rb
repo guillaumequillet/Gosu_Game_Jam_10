@@ -1,5 +1,5 @@
 class Scooter
-    attr_reader :x, :y, :z
+    attr_reader :x, :y, :z, :momentum
 
     CIRCLE_RADIUS = 0.35
     CIRCLE_OFFSETS = [-0.45, 0.45]
@@ -25,9 +25,10 @@ class Scooter
         @max_angle = 12.0
         @angle_speed = 35.0 # degres per second
 
-        @speed = 0.0
         @max_speed = 25.0 # units per second
+        @speed = @max_speed
         @acceleration = 10.0 # units per second
+        @momentum = 1.0 # to handle actual move measure : theme of the Jam
 
         @engine_sound = Gosu::Sample.new('sfx/scooter_vespa.wav')
         @engine_channel = @engine_sound.play(0.3, 0.8, true)
@@ -45,7 +46,13 @@ class Scooter
         }
     end
 
+    def add_momentum(value)
+        @momentum = (@momentum + value).clamp(0, 1)
+    end
+
     def update(dt)
+        add_momentum((@speed / @max_speed - 0.8) * 0.4 * dt)
+
         if @spin_time
             @spin_time += dt
             @z -= 1.5 * dt # we want the scooter to move back a little
@@ -64,7 +71,7 @@ class Scooter
         else
             # brake
             if decelerates?
-                @speed -= @acceleration * 2.0 * dt
+                @speed -= @acceleration * 3.5 * dt
                 if @speed > 5 && !@brake_channel&.playing?
                     @brake_channel = @brake_sound.play(0.8 * @speed / @max_speed)
                 end
@@ -107,9 +114,15 @@ class Scooter
         end
     end
 
+    def stop_sounds
+        @engine_channel.stop
+        @brake_channel&.stop
+    end
+
     def crash!
+        add_momentum(-0.15)
         @crash_sound.play(0.8 + 0.2 * @speed / @max_speed, Gosu.random(0.85, 1.15))
-        @speed = 0
+        @speed *= 0.5
         @angle = @default_angle
         @spin_time = 0
         @brake_channel&.stop
@@ -183,7 +196,7 @@ class Scooter
         glDisable(GL_ALPHA_TEST)
     end
 
-    def draw_2d
+    def draw_counter
         x = 10
         y = @scene.window.height - @hud[:bg].height - x
         z = 1000
@@ -194,5 +207,19 @@ class Scooter
         ratio = (@speed / @max_speed).clamp(0, 1)
         angle = min_angle + (max_angle - min_angle) * ratio
         @hud[:needle].draw_rot(x, y, z, angle, 0, 0.5, 0.8, 1.0)
+    end
+
+    def draw_momentum
+        w, h = 150, 16
+        gx = @scene.window.width - w - 10
+        gy = @scene.window.height - h - 10
+        color = @momentum < 0.25 && (Gosu.milliseconds / 150).odd? ? Gosu::Color::RED : Gosu::Color::GREEN
+        Gosu.draw_rect(gx, gy, w, h, Gosu::Color::BLACK, 1000)
+        Gosu.draw_rect(gx + 2, gy + 2, (w - 4) * @momentum, h - 4, color, 1000)
+    end
+
+    def draw_2d
+        draw_counter
+        draw_momentum
     end
 end

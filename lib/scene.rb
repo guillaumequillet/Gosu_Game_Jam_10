@@ -48,6 +48,13 @@ class GameScene < Scene
         @scooter.update(dt)
         @road.update(dt)
         @camera.update(dt)
+        game_over if @scooter.momentum <= 0
+    end
+
+    def game_over
+        @scooter.stop_sounds
+        @music.stop
+        @window.scene = GameOverScene.new(@window)
     end
 
     def draw
@@ -68,5 +75,23 @@ class GameScene < Scene
     def draw_2d
         @road.draw_2d
         @scooter.draw_2d
+    end
+end
+
+class GameOverScene < Scene
+    def initialize(window)
+        super(window)
+        @big_font = Gosu::Font.new(48)
+        @small_font = Gosu::Font.new(20)
+    end
+
+    def button_down(id)
+        @window.scene = GameScene.new(@window)
+    end
+
+    def draw
+        cx, cy = @window.width / 2, @window.height / 2
+        @big_font.draw_text_rel('GAME OVER', cx, cy - 20, 0, 0.5, 0.5)
+        @small_font.draw_text_rel('Appuyez sur une touche pour recommencer', cx, cy + 30, 0, 0.5, 0.5, 1, 1, Gosu::Color::GRAY)
     end
 end

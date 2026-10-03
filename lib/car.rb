@@ -18,14 +18,14 @@ class Car
 
     def initialize(angle = 90, z = 0)
         @angle, @z = angle, z
-        @lane_x = (@angle == 90) ? -2.1 : 2.1
+        @lane_x = (@angle == 90) ? -2.0 : 2.0
         @x = @lane_x
         @y = 0
         @speed = 10.0
         @type = Car.models.keys.sample 
 
         # we want the driver not to be so precise
-        @wobble_amp = [0, Gosu.random(0.8, 1.1)].sample # 1 chance out of 2 to stand still
+        @wobble_amp = [0, Gosu.random(0.8, 1.2)].sample # 1 chance out of 2 to stand still
         @wobble_freq = Gosu.random(0.25, 0.4) # per second
         @wobble_phase = Gosu.random(0, 2 * Math::PI) # we don't want it to be sync between all cars
         @time = 0

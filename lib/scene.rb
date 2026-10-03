@@ -30,7 +30,7 @@ class GameScene < Scene
     end
 
     def create_road
-        @road = Road.new(self)
+        @road = Road.new(self, 300)
     end
 
     def button_down(id)

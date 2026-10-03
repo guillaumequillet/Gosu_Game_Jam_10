@@ -14,7 +14,8 @@ class Road
         @texture = GLTexture.new('gfx/lospec500-8x.png')
         @models = {
             road: Model3D.new('gfx/models/road.obj'),
-            road2: Model3D.new('gfx/models/road2.obj')
+            road2: Model3D.new('gfx/models/road2.obj'),
+            goal: Model3D.new('gfx/models/goal.obj')
         }
     end
  
@@ -23,7 +24,11 @@ class Road
         @display_list = glGenLists(1)
         glNewList(@display_list, GL_COMPILE) 
             length.times do |z|
-                model = @models.keys.sample 
+                if z == length - 1
+                    @models[:goal].draw(@texture, 0, 0, z * SEGMENT_SIZE)
+                    next
+                end
+                model = @models.keys.reject {|k| k == :goal}.sample 
                 reverse = [true, false].sample
                 if reverse
                     glPushMatrix
@@ -35,11 +40,15 @@ class Road
         glEndList
     end
 
+    def last_segment_z
+        (@length - 1) * SEGMENT_SIZE - SEGMENT_SIZE / 2.0
+    end
+
     def spawn_car
         z = @scene.scooter.z + 100
         angle = [90, 270].sample
         too_close = @cars.any? {|car| car.angle == angle && (car.z - z).abs < 10}
-        @cars.push Car.new(angle, z) unless too_close
+        @cars.push Car.new(angle, z) unless too_close || z > last_segment_z
         @last_spawn = Gosu.milliseconds
         @spawn_delay = Gosu.random(350, 800)
     end
@@ -51,6 +60,9 @@ class Road
         end
 
         @cars.each {|car| car.update(dt)}
+
+        # we want to ensure that cars can't go to the last section
+        @cars.each {|car| car.vanish! if !car.vanishing? && car.z > last_segment_z - 2}
         @cars.reject! {|car| car.z < @scene.scooter.z - 10 || car.vanished?}
 
         scooter = @scene.scooter

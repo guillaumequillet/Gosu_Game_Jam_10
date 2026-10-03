@@ -122,7 +122,7 @@ class Scooter
     end
 
     def crash!
-        add_momentum(-0.15)
+        add_momentum(-0.2)
         @crash_sound.play(0.8 + 0.2 * @speed / @max_speed, Gosu.random(0.85, 1.15))
         @speed *= 0.5
         @angle = @default_angle

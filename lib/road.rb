@@ -16,6 +16,8 @@ class Road
         @models = {
             road: Model3D.new('gfx/models/road.obj'),
             road2: Model3D.new('gfx/models/road2.obj'),
+            road3: Model3D.new('gfx/models/road3.obj'),
+            road4: Model3D.new('gfx/models/road3.obj'), # only to add more gaps between buildings
             goal: Model3D.new('gfx/models/goal.obj')
         }
         @hud = {

@@ -29,6 +29,7 @@ class Scooter
         @speed = @max_speed
         @acceleration = 10.0 # units per second
         @momentum = 1.0 # to handle actual move measure : theme of the Jam
+        @momentum_threshold = 0.8
 
         @engine_sound = Gosu::Sample.new('sfx/scooter_vespa.wav')
         @engine_channel = @engine_sound.play(0.3, 0.8, true)
@@ -44,6 +45,7 @@ class Scooter
             bg: Gosu::Image.new('gfx/fond_compteur.png', retro: true),
             needle: Gosu::Image.new('gfx/compteur_aiguille.png', retro: true)
         }
+        @font = Gosu::Font.new(16, bold: true)
     end
 
     def add_momentum(value)
@@ -51,7 +53,7 @@ class Scooter
     end
 
     def update(dt)
-        add_momentum((@speed / @max_speed - 0.8) * 0.4 * dt)
+        add_momentum((@speed / @max_speed - @momentum_threshold) * 0.4 * dt)
 
         if @spin_time
             @spin_time += dt
@@ -216,6 +218,8 @@ class Scooter
         color = @momentum < 0.25 && (Gosu.milliseconds / 150).odd? ? Gosu::Color::RED : Gosu::Color::GREEN
         Gosu.draw_rect(gx, gy, w, h, Gosu::Color::BLACK, 1000)
         Gosu.draw_rect(gx + 2, gy + 2, (w - 4) * @momentum, h - 4, color, 1000)
+        text_color = @speed / @max_speed >= @momentum_threshold ? Gosu::Color::GREEN : Gosu::Color::RED
+        @font.draw_text('MOVE METER', gx, gy - @font.height - 2, 1000, 1, 1, text_color)
     end
 
     def draw_2d
